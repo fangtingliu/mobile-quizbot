@@ -1,0 +1,41 @@
+<ion-view view-title="Trending Quizzes">
+  <ion-content class="padding">
+    <ion-list>
+      <ion-item class="item-remove-animate item-avatar item-icon-right" ng-repeat="quiz in quizzes" type="item-text-wrap" href="#/tab/trending/play/{{quiz.id}}">
+        <img ng-src="{{quiz.face}}">
+        <h2>{{quiz.name}}</h2>
+        <p>{{quiz.lastText}}</p>
+        <i class="icon ion-chevron-right icon-accessory"></i>
+
+        <ion-option-button class="button-assertive" ng-click="remove(quiz)">
+          Delete
+        </ion-option-button>
+      </ion-item>
+    </ion-list>
+
+    <div class="list card">
+      <div class="item item-divider">Should I get a dog?</div>
+      <div class="item item-body">
+        <div>
+          This is a quiz that helps you decide should you get a dog or not.
+        </div>
+      </div>
+    </div>
+    <div class="list card">
+      <div class="item item-divider">Am I a lovable person?</div>
+      <div class="item item-body">
+        <div>
+          This is a quiz help you to identify if you are lovable human being.
+        </div>
+      </div>
+    </div>
+    <div class="list card">
+      <div class="item item-divider">Am I an entrepreneur?</div>
+      <div class="item item-body">
+        <div>
+          This quiz help you to figure out whether you should be an entrepreneur.
+        </div>
+      </div>
+    </div>
+  </ion-content>
+</ion-view>
