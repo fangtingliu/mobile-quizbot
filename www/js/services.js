@@ -13,7 +13,7 @@ angular.module('quizBot.services', [])
   };
 
   return {
-    getQuizbot: getQuizbot,
+    getQuizbot: getQuizbot
   };
-  
+
 });

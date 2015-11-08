@@ -6,10 +6,29 @@
 -->
 <ion-view view-title="{{quiz.name}}">
   <ion-content class="padding">
-  {{quiz}}
-    <img ng-src="{{quiz.face}}" style="width: 64px; height: 64px">
-    <p>
-      {{quiz.lastText}}
-    </p>
+    <h2>{{quiz.name}}</h2>
+
+    <form name="myForm" ng-if="!hasUserEmail">
+      <label>Please input your email address:</label>
+      <input name="email" type="email" ng-model="userQuiz.userEmail" required>
+      <div role="alert">
+        <span ng-show="myForm.email.$dirty && myForm.email.$error.required && myForm.email.$error.email" role="alert">Email is required</span> 
+        <span class="error" ng-show="myForm.email.$error.email">
+          Not valid email!</span>
+      </div>
+      <button ng-disabled="myForm.$invalid" ng-click="submitEmail()">Submit</button>
+    </form>
+
+    <ion-list ng-if="hasUserEmail">
+      <div class="list card" ng-repeat="question in quiz.questions">
+        <h4>{{question}}</h4>
+        <div class="item item-body" ng-repeat="option in quiz.options[$index]" ng-if="$index > 0">
+          <ion-checkbox ng-selected="userQuiz.selection[$parent.$parent.$index]" ng-checked="userQuiz.selection[$parent.$parent.$index] == option" ng-click="updateSelected(quiz, $parent.$parent.$index, option)">
+            {{option}}
+          </ion-checkbox>
+        </div>
+      </div>
+    </ion-list>
+    <button ng-click="submit()" ng-if="hasUserEmail">Submit</button>
   </ion-content>
 </ion-view>
