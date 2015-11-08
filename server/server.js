@@ -1,5 +1,6 @@
-var express = require("express");
-var morgan = require("morgan");
+var express = require('express');
+var morgan = require('morgan');
+var mongoose = require('mongoose');
 
 var app = express();
 
@@ -10,7 +11,7 @@ app.use(express.static(__dirname + './../www'));
 app.use(morgan('dev'));
 
 // local server
-var port = 8000;
+var port = process.env.PORT || 8000;
 app.listen(port, function(){
   console.log("Listening to localhost, port #: " + port);
 })
