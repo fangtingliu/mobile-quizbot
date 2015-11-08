@@ -12,8 +12,21 @@ angular.module('quizBot.services', [])
     });
   };
 
+  var submitQuiz = function(userQuiz) {
+    return $http({
+      method: 'POST',
+      url: '/quiz/submit',
+      data: userQuiz
+    })
+    .then(function(resp){
+      console.log('submitQuiz service resp: ', resp);
+      return resp.data;
+    })
+  }
+
   return {
-    getQuizbot: getQuizbot
+    getQuizbot: getQuizbot,
+    submitQuiz: submitQuiz
   };
 
 });

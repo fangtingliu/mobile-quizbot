@@ -7,7 +7,6 @@
 <ion-view view-title="{{quiz.name}}">
   <ion-content class="padding">
     <h2>{{quiz.name}}</h2>
-
     <form name="myForm" ng-if="!hasUserEmail">
       <label>Please input your email address:</label>
       <input name="email" type="email" ng-model="userQuiz.userEmail" required>
@@ -29,6 +28,7 @@
         </div>
       </div>
     </ion-list>
-    <button ng-click="submit()" ng-if="hasUserEmail">Submit</button>
+    <button ng-click="submit(false)" ng-if="hasUserEmail">Submit only</button>
+    <button ng-click="submit(true)" ng-if="hasUserEmail">Submit and Email the result to me</button>
   </ion-content>
 </ion-view>
