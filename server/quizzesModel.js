@@ -1,6 +1,6 @@
 var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
-var Quizbot = require('quizbotModel.js');
+var Quizbot = require('./quizbotModel.js');
 
 var Quizzes = new Schema({
   userEmail: {
