@@ -77,7 +77,7 @@ app.post('/quiz/submit', function(req, res){
             quizResult.description = inter[1];
             break;
           } else {
-            quizResult.description = inter[1];
+            quizResult.description = inter[0];
           }
         }
 
