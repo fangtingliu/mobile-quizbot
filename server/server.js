@@ -13,12 +13,15 @@ var tranporter = nodemailer.createTransport(directTransport());
 
 // static serve
 app.use(express.static(__dirname + './../www'));
+
+// parse data
 app.use(parse.urlencoded({extended: true}));
 app.use(parse.json());
 
 // dev request logger
 app.use(morgan('dev'));
 
+// get all quizzes from quizbot
 app.get('/quizbot', function(req, res){
   Quizbot.find({}, function(err, quizbot){
     if (err) { throw err; }
@@ -26,6 +29,7 @@ app.get('/quizbot', function(req, res){
   });
 });
 
+// submit a quiz for user
 app.post('/quiz/submit', function(req, res){
   var data = req.body;
   find = Q.nbind(Quizzes.find, Quizzes);
@@ -58,6 +62,7 @@ app.post('/quiz/submit', function(req, res){
     .then(function(result){
       var quizResult = {userScore: 0};
 
+      // get quiz data and calculate score for user
       findQuiz(data.quizId)
       .then(function(quiz){
         quiz.options.forEach(function(que, index){
@@ -65,30 +70,32 @@ app.post('/quiz/submit', function(req, res){
             quizResult.userScore += que[0];
           }
         })
-
+        // obtain score's meaning for user
         for (var i = 0; i < quiz.interpretation.length; i ++){
           var inter = quiz.interpretation[i];
           if (inter[0] && quizResult.userScore < inter[0]) {
-            quizResult.descreption = inter[1];
+            quizResult.description = inter[1];
             break;
           } else {
-            quizResult.descreption = inter[1];
+            quizResult.description = inter[1];
           }
         }
+
         if (data.email) {
-            tranporter.sendMail({
-              from: 'fangtingprahl@gmail.com',
-              to: data.userEmail,
-              subject: 'Result of quiz ' + quiz.name,
-              text: 'Hi, you score is + ' + quizResult.userScore + '. ' + quizResult.descreption
-            }, function(err, response){
-              if (err) {
-                console.log('send email error: ', err);
-                res.send(err);
-              } else {
-                res.send(quizResult);
-              }
-            })
+          // email user when user required
+          tranporter.sendMail({
+            from: 'fangtingprahl@gmail.com',
+            to: data.userEmail,
+            subject: 'Result of quiz ' + quiz.name,
+            text: 'Hi, you score is + ' + quizResult.userScore + '. ' + quizResult.description
+          }, function(err, response){
+            if (err) {
+              console.log('send email error: ', err);
+              res.send(err);
+            } else {
+              res.send(quizResult);
+            }
+          })
         } else {
           res.send(quizResult);
         }

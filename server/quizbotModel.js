@@ -29,6 +29,7 @@ var Quizbot = new Schema({
 module.exports = mongoose.model('Quizbot', Quizbot);
 
 // hardcode in a quiz "Should I have a Dog?"
+// if we want to use an API like jService, We can set up an worker to update us quizbot regularly. However, due to time limitation, I will hardcode one quiz into db 
 var newQuiz = {
   name: "Should I have a dog?",
   questions: ["Do you want a dog because you are lonely?", "Do you want a dog because you love animals?", "Do you want a dog because your house needs protection?", "Do you want a dog because your best friend has one?"],
