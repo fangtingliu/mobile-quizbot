@@ -7,6 +7,10 @@ var Quizzes = require('./quizzesModel.js');
 var Q = require('q');
 var app = express();
 
+var nodemailer = require('nodemailer');
+var directTransport = require('nodemailer-direct-transport');
+var tranporter = nodemailer.createTransport(directTransport());
+
 // static serve
 app.use(express.static(__dirname + './../www'));
 app.use(parse.urlencoded({extended: true}));
@@ -24,8 +28,8 @@ app.get('/quizbot', function(req, res){
 
 app.post('/quiz/submit', function(req, res){
   var data = req.body;
-  console.log("data: ", data)
   find = Q.nbind(Quizzes.find, Quizzes);
+  findQuiz = Q.nbind(Quizbot.findById, Quizbot);
   create = Q.nbind(Quizzes.create, Quizzes);
   update = Q.nbind(Quizzes.update, Quizzes);
   var quiz = {
@@ -42,12 +46,33 @@ app.post('/quiz/submit', function(req, res){
       if (results.length > 0){
         update(quiz)
         .then(function(result){
-          res.send(200);
+          return result;
         })    
       } else {
         create(quiz)
         .then(function(result){
-          res.send(200);
+          return result
+        })
+      }
+    })
+    .then(function(result){
+      if (data.email) {
+        findQuiz(data.quizId)
+        .then(function(quiz){
+          tranporter.sendMail({
+            from: 'fangtingprahl@gmail.com',
+            to: data.userEmail,
+            subject: 'Result of quiz ' + quiz.name,
+            text: 'Hi, you score is abc'
+          }, function(err, response){
+            console.log("hi from sendMail")
+            if (err) {
+              console.log('send email error: ', err);
+              res.send(err);
+            } else {
+              res.send(200);
+            }
+          })
         })
       }
     });

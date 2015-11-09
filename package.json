@@ -12,6 +12,8 @@
     "gulp-sass": "^2.0.4",
     "mongoose": "^4.2.4",
     "morgan": "^1.6.1",
+    "nodemailer": "^1.8.0",
+    "nodemailer-direct-transport": "^1.1.0",
     "q": "^1.4.1"
   },
   "devDependencies": {
