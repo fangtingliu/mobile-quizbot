@@ -59,15 +59,16 @@ angular.module('quizBot', ['ionic', 'quizBot.controllers', 'quizBot.services'])
       }
     })
 
-  .state('tab.myQuizzes', {
-      url: '/myQuizzes',
-      views: {
-        'tab-myQuizzes': {
-          templateUrl: 'templates/tab-myQuizzes.html',
-          controller: 'MyQuizzesCtrl'
-        }
-      }
-    })
+  // myQuizzes is not available 
+  // .state('tab.myQuizzes', {
+  //     url: '/myQuizzes',
+  //     views: {
+  //       'tab-myQuizzes': {
+  //         templateUrl: 'templates/tab-myQuizzes.html',
+  //         controller: 'MyQuizzesCtrl'
+  //       }
+  //     }
+  //   })
 
   .state('tab.account', {
     url: '/account',

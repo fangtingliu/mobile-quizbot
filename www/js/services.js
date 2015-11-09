@@ -1,7 +1,7 @@
 angular.module('quizBot.services', [])
 
 .factory('Quizbot', function($http) {
-  // Might use a resource here that returns a JSON array
+  // get all quizzes from db
   var getQuizbot = function() {
     return $http({
       method: 'GET',
@@ -12,6 +12,7 @@ angular.module('quizBot.services', [])
     });
   };
 
+  // submit quiz
   var submitQuiz = function(userQuiz) {
     return $http({
       method: 'POST',
@@ -19,7 +20,6 @@ angular.module('quizBot.services', [])
       data: userQuiz
     })
     .then(function(resp){
-      console.log('submitQuiz service resp: ', resp);
       return resp.data;
     })
   }

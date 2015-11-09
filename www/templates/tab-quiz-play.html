@@ -7,6 +7,8 @@
 <ion-view view-title="{{quiz.name}}">
   <ion-content class="padding">
     <h2>{{quiz.name}}</h2>
+
+    <!-- user Email input view -->
     <form name="myForm" ng-if="!hasUserEmail">
       <label>Please input your email address:</label>
       <input name="email" type="email" ng-model="userQuiz.userEmail" required>
@@ -18,6 +20,7 @@
       <button ng-disabled="myForm.$invalid" ng-click="submitEmail()">Submit</button>
     </form>
 
+    <!-- quiz questions view -->
     <ion-list ng-if="hasUserEmail">
       <div class="list card" ng-repeat="question in quiz.questions">
         <h4>{{question}}</h4>
@@ -28,7 +31,7 @@
         </div>
       </div>
     </ion-list>
-    <button ng-click="submit(false)" ng-if="hasUserEmail">Submit only</button>
-    <button ng-click="submit(true)" ng-if="hasUserEmail">Submit and Email the result to me</button>
+    <button ng-click="submit(false)" ng-disabled="incomplete" ng-if="hasUserEmail">Submit only</button>
+    <button ng-click="submit(true)" ng-disabled="incomplete" ng-if="hasUserEmail">Submit and Email the result to me</button>
   </ion-content>
 </ion-view>
