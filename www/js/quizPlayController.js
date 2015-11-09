@@ -12,7 +12,7 @@ angular.module('quizBot.controllers')
   };
 
   // check if userEmail is stored
-  if ($window.sessionStorage.getItem('userEmail') === undefined) {
+  if ($window.sessionStorage.getItem('userEmail') === null) {
     $scope.hasUserEmail = false;
   } else {
     $scope.userQuiz.userEmail = JSON.parse($window.sessionStorage.getItem('userEmail'));
