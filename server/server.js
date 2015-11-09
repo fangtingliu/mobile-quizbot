@@ -51,30 +51,48 @@ app.post('/quiz/submit', function(req, res){
       } else {
         create(quiz)
         .then(function(result){
-          return result
+          return result;
         })
       }
     })
     .then(function(result){
-      if (data.email) {
-        findQuiz(data.quizId)
-        .then(function(quiz){
-          tranporter.sendMail({
-            from: 'fangtingprahl@gmail.com',
-            to: data.userEmail,
-            subject: 'Result of quiz ' + quiz.name,
-            text: 'Hi, you score is abc'
-          }, function(err, response){
-            console.log("hi from sendMail")
-            if (err) {
-              console.log('send email error: ', err);
-              res.send(err);
-            } else {
-              res.send(200);
-            }
-          })
+      var quizResult = {userScore: 0};
+
+      findQuiz(data.quizId)
+      .then(function(quiz){
+        quiz.options.forEach(function(que, index){
+          if (data.selection[index] === que[1]) {
+            quizResult.userScore += que[0];
+          }
         })
-      }
+
+        for (var i = 0; i < quiz.interpretation.length; i ++){
+          var inter = quiz.interpretation[i];
+          if (inter[0] && quizResult.userScore < inter[0]) {
+            quizResult.descreption = inter[1];
+            break;
+          } else {
+            quizResult.descreption = inter[1];
+          }
+        }
+        if (data.email) {
+            tranporter.sendMail({
+              from: 'fangtingprahl@gmail.com',
+              to: data.userEmail,
+              subject: 'Result of quiz ' + quiz.name,
+              text: 'Hi, you score is + ' + quizResult.userScore + '. ' + quizResult.descreption
+            }, function(err, response){
+              if (err) {
+                console.log('send email error: ', err);
+                res.send(err);
+              } else {
+                res.send(quizResult);
+              }
+            })
+        } else {
+          res.send(quizResult);
+        }
+      })
     });
 })
 
